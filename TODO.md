@@ -1,0 +1,4 @@
+- translate `aseprite.moon` from lua to moonscript
+- event queue
+- atlas loader
+- copy STI
