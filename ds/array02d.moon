@@ -1,3 +1,5 @@
+-- 0-based 2D array
+
 Array = require (PILE_OF_CODE_BASE or '') .. "ds.Array"
 
 class Array2D

@@ -2,3 +2,4 @@
 - event queue
 - atlas loader
 - copy STI
+- OpenAL

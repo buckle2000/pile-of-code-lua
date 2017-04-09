@@ -1,3 +1,5 @@
+-- 0-based 1D array
+
 iter_helper = (t, index) ->
   index += 1
   if index == t.n

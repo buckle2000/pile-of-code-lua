@@ -1,0 +1,1 @@
+try adjust `texture extrude size` and `texture padding` if you see graphics artifact
