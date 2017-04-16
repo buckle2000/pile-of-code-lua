@@ -1,4 +1,6 @@
 --[[
+Modified version of original hump/signal
+
 Copyright (c) 2012-2013 Matthias Richter
 Copyright (c) 2017 buckle2000
 
@@ -36,17 +38,14 @@ end
 
 -- the module
 function Registry.new()
-  local registry = {}
-
-  return setmetatable({
-    new            = new,
-    register       = function(...) return Registry.register(registry, ...) end,
-    remove         = function(...) return Registry.remove(registry, ...) end,
-    emit           = function(...) Registry.emit(registry, ...) end,
-    clear          = function(...) Registry.clear(registry, ...) end,
-    reset          = function() registry = {} end,
-    get_the_fuck   = function() return registry end,
-  })
+  return {
+  	_pile_reg      = {},
+    register       = function(self, ...) return Registry.register(self._pile_reg, ...) end,
+    remove         = function(self, ...) return Registry.remove(self._pile_reg, ...) end,
+    emit           = function(self, ...) Registry.emit(self._pile_reg, ...) end,
+    clear          = function(self, ...) Registry.clear(self._pile_reg, ...) end,
+    reset          = function(self) self._pile_reg = {} end,
+  }
 end
 
 return Registry

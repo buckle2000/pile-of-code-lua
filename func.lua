@@ -740,11 +740,46 @@ end
 
 
 function lume.rgba(color)
-  local a = math_floor((color / 16777216) % 256)
-  local r = math_floor((color /    65536) % 256)
-  local g = math_floor((color /      256) % 256)
-  local b = math_floor((color) % 256)
+  local a = math_floor((color / 0xFFFFFF) % 0xFF)
+  local r = math_floor((color /   0xFFFF) % 0xFF)
+  local g = math_floor((color /     0xFF) % 0xFF)
+  local b = math_floor((color           ) % 0xFF)
   return r, g, b, a
+end
+
+--[[
+t = {}
+t.oncomplete = lume.makefsetter('_oncomplete')
+t.oncomplete(function() end)
+t.oncomplete(function() end)
+t._oncomplete()
+]]
+function lume.makefsetter(field)
+  return function(self, x)
+    local mt = getmetatable(x)
+    if type(x) ~= "function" and not (mt and mt.__call) then
+      error("expected function or callable", 2)
+    end
+    local old = self[field]
+    self[field] = old and function() old() x() end or x
+    return self
+  end
+end
+
+--[[
+t = {}
+t.field = lume.makesetter('_field', validate_func, errmsg)
+t.field(3)
+print(t._field)
+]]
+function lume.makesetter(field, checkfn, errmsg)
+  return function(self, x)
+    if checkfn and not checkfn(x) then
+      error(errmsg:gsub("%$x", tostring(x)), 2)
+    end
+    self[field] = x
+    return self
+  end
 end
 
 
